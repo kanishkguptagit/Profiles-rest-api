@@ -1,7 +1,8 @@
-from django.http import response
+from rest_framework.serializers import Serializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import viewsets
 
 from profiles_api import serializers
 
@@ -47,3 +48,50 @@ class HelloApiView(APIView):
     def delete(self, request, pk=None):
         # Delete an object in the database
         return Response({'method':'DELETE'})
+
+
+class HelloViewSet(viewsets.ViewSet):
+    # test api viewsets
+    serializer_class = serializers.HelloSerializer
+
+    def list(self, request):
+        # return hello message
+        a_viewset = [
+            'Uses action (list, create, retrive, update, partial_update)',
+            'Automatically maps to URLs using routers',
+            'Provides more functionality with more code'
+        ]
+
+        return Response({'message':'Hello', 'a_Viewset':a_viewset})
+
+    def create(self, request):
+        # create a new hello message
+        serializer = self.serializer_class(data=request.data)
+
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            name = serializer.validated_data.get('name')
+            message = f'Hello {name}!'
+            return Response({'message':message})
+        else:
+            return Response(
+                serializer.errors, 
+                status= status.HTTP_400_BAD_REQUEST
+                )
+
+    def retrieve (self, request, pk=None):
+        #handle getting an object by it's id
+        return Response({'http_method':'GET'})
+
+    def update (self, request, pk=None):
+        #handle updating an object
+        return Response({'http_method':'PUT'})
+
+    def partial_update(self, request, pk=None):
+        #handle partial update of an object
+        return Response({'http_method':'PATCH'})
+
+    def destroy(self, request, pk=None):
+        # handling removing an object in the database
+        return Response({'http_method':'DELETE'})
