@@ -7,3 +7,5 @@ class UserProfileShow(admin.ModelAdmin):
     list_display = ('email','name')
 
 admin.site.register(models.UserProfile, UserProfileShow)
+
+admin.site.register(models.ProfileFeedItem)
