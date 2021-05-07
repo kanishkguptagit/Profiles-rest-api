@@ -1,3 +1,4 @@
 # Profiles REST API
 
-Profiles REST API course code
+A Rest api made with django-rest-framework
+It has api to authenticate and search users along with status updates
